@@ -55,10 +55,10 @@ export function Footer() {
                 <span className="cursor-pointer hover:text-white transition-colors">이메일무단수집거부</span>
               </div>
               <div className="flex flex-col gap-[4px] font-['Pretendard'] text-[13px] xl:text-[18px] text-[#8f96a3] leading-[1.4]">
-                <p>㈜지란데이터 | 대표이사: 유병완</p>
-                <p>34016 대전광역시 유성구 테크노3로 65 (관평동) 한신S메카 603호</p>
-                <p>사업자등록번호: 760-81-01944 | 통신판매업신고: 제2020-서울강남-03494</p>
-                <p>© 2026 JIRANDATA. All rights reserved.</p>
+                <p>㈜퍼스트알앤디 | 대표이사: 이우선</p>
+                <p>34037 대전광역시 유성구 갑천로 361-17, 윕스퀘어 202-203호</p>
+                <p>사업자등록번호: 223-81-01234 | 통신판매업신고: 제2026-대전유성-034935</p>
+                <p>© 2026 FRD. All rights reserved.</p>
               </div>
             </div>
           </div>
