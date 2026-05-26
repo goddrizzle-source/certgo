@@ -73,7 +73,7 @@ export default function Main() {
       <NavBar />
 
       {/* ══════════════ HERO ══════════════ */}
-      <section className="relative overflow-hidden h-[760px]">
+      <section className="relative overflow-hidden h-auto xl:h-[760px]">
         {/* BG 이미지 */}
         <div className="absolute inset-0">
           <img src={bgHero} alt="" className="w-full h-full object-cover" />
@@ -124,7 +124,7 @@ export default function Main() {
                 <div className="border-t border-[#e5e7eb]" />
 
                 {/* 선택지 */}
-                <div className="px-[35px] sm:px-[50px] py-[28px] pb-[72px] sm:pb-[28px] flex flex-col gap-[12px]">
+                <div className="px-[35px] sm:px-[50px] py-[28px] pb-[28px] flex flex-col gap-[12px]">
                   {/* 용도 선택 */}
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
                     <div className="flex items-center gap-[12px] shrink-0 sm:w-[146px]">
@@ -153,7 +153,7 @@ export default function Main() {
                         기업 유형 선택
                       </p>
                     </div>
-                    <div className="flex flex-nowrap gap-[4px]">
+                    <div className="flex flex-wrap gap-[4px]">
                       {["스타트업/중소기업", "일반 기업", "공공기관/금융"].map((label) => (
                         <button key={label} onClick={() => setSelectedCompany(label)}
                           className={`rounded-full px-[14px] py-[12px] font-['Pretendard'] font-medium text-[14px] h-[44px] border transition-colors whitespace-nowrap ${
@@ -188,9 +188,18 @@ export default function Main() {
                 </div>
               </div>
 
+              {/* 모바일 CTA 버튼 */}
+              <button
+                className={`xl:hidden w-full mt-4 flex items-center justify-center rounded-[12px] h-[52px] transition-colors cta-btn${allSelected ? ' selected' : ''}`}
+              >
+                <p className="font-['Pretendard'] font-bold text-[18px] text-white text-center tracking-[-1px] leading-[1.4]">
+                  인증서 찾기
+                </p>
+              </button>
+
               {/* 원형 CTA 버튼 (데스크탑 전용) */}
               <button
-                className={`flex absolute z-20 items-center justify-center rounded-[80px] size-[120px] transition-colors cta-btn cta-btn-desktop${allSelected ? ' selected' : ''}`}
+                className={`hidden xl:flex absolute z-20 items-center justify-center rounded-[80px] size-[120px] transition-colors cta-btn cta-btn-desktop${allSelected ? ' selected' : ''}`}
               >
                 <p className="font-['Pretendard'] font-bold text-[20px] text-white text-center tracking-[-1px] leading-[1.4]">
                   인증서 찾기
