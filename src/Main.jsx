@@ -153,7 +153,7 @@ export default function Main() {
                         기업 유형 선택
                       </p>
                     </div>
-                    <div className="flex flex-wrap gap-[4px]">
+                    <div className="company-btns">
                       {["스타트업/중소기업", "일반 기업", "공공기관/금융"].map((label) => (
                         <button key={label} onClick={() => setSelectedCompany(label)}
                           className={`rounded-full px-[14px] py-[12px] font-['Pretendard'] font-medium text-[14px] h-[44px] border transition-colors whitespace-nowrap ${

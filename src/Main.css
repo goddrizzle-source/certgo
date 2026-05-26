@@ -37,6 +37,13 @@
   background-image: linear-gradient(132.75deg, rgb(84, 0, 229) 0%, rgb(0, 170, 255) 96.64%);
 }
 
+/* 기업 유형 버튼 줄바꿈 */
+.company-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
 /* CTA 버튼 */
 .cta-btn {
   background: linear-gradient(137.57deg, rgb(21, 117, 252) 18.6%, rgb(3, 81, 252) 83.73%);
