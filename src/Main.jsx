@@ -188,14 +188,16 @@ export default function Main() {
                 </div>
               </div>
 
-              {/* 원형 CTA 버튼 */}
+              {/* 모바일 CTA 버튼 */}
               <button
-                className={`xl:hidden mx-auto mt-4 flex items-center justify-center rounded-full size-[120px] transition-colors cta-btn${allSelected ? ' selected' : ''}`}
+                className={`xl:hidden w-full mt-4 flex items-center justify-center rounded-[12px] h-[52px] transition-colors cta-btn${allSelected ? ' selected' : ''}`}
               >
-                <p className="font-['Pretendard'] font-bold text-[20px] text-white text-center tracking-[-1px] leading-[1.4]">
+                <p className="font-['Pretendard'] font-bold text-[18px] text-white text-center tracking-[-1px] leading-[1.4]">
                   인증서 찾기
                 </p>
               </button>
+
+              {/* 원형 CTA 버튼 (데스크탑 전용) */}
               <button
                 className={`hidden xl:flex absolute z-20 items-center justify-center rounded-[80px] size-[120px] transition-colors cta-btn cta-btn-desktop${allSelected ? ' selected' : ''}`}
               >
