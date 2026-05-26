@@ -45,7 +45,8 @@
       "Bash(/Users/frd/Desktop/certgo_website/.gitignore:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }
