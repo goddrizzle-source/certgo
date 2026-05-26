@@ -73,7 +73,7 @@ export default function Main() {
       <NavBar />
 
       {/* ══════════════ HERO ══════════════ */}
-      <section className="relative overflow-hidden h-[760px]">
+      <section className="relative overflow-hidden h-auto xl:h-[760px]">
         {/* BG 이미지 */}
         <div className="absolute inset-0">
           <img src={bgHero} alt="" className="w-full h-full object-cover" />
@@ -188,9 +188,16 @@ export default function Main() {
                 </div>
               </div>
 
-              {/* 원형 CTA 버튼 (데스크탑 전용) */}
+              {/* 원형 CTA 버튼 — 모바일: 카드 아래 중앙, 데스크탑: 절대위치 */}
               <button
-                className={`flex absolute z-20 items-center justify-center rounded-[80px] size-[120px] transition-colors cta-btn cta-btn-desktop${allSelected ? ' selected' : ''}`}
+                className={`xl:hidden mx-auto mt-4 flex items-center justify-center rounded-full size-[120px] transition-colors cta-btn${allSelected ? ' selected' : ''}`}
+              >
+                <p className="font-['Pretendard'] font-bold text-[20px] text-white text-center tracking-[-1px] leading-[1.4]">
+                  인증서 찾기
+                </p>
+              </button>
+              <button
+                className={`hidden xl:flex absolute z-20 items-center justify-center rounded-[80px] size-[120px] transition-colors cta-btn cta-btn-desktop${allSelected ? ' selected' : ''}`}
               >
                 <p className="font-['Pretendard'] font-bold text-[20px] text-white text-center tracking-[-1px] leading-[1.4]">
                   인증서 찾기
