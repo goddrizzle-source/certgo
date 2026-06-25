@@ -285,10 +285,10 @@ export default function WhyCertgo() {
 
           {/* Heading */}
           <div ref={certRef} className={`wc-fade-up${certInView ? ' visible' : ''} flex flex-col gap-[20px] items-center text-center mb-6 xl:mb-[60px]`}>
-            <p className="font-bold text-[#303336] text-[22px] xl:text-[40px] tracking-[-1px] leading-[1.3]">
+            <p className="font-bold text-[#303336] text-[17px] min-[400px]:text-[22px] xl:text-[40px] tracking-[-1px] leading-[1.3]">
               복잡한 환경일수록 certgo가 더 잘 맞습니다
             </p>
-            <p className="font-medium text-[#7d8ba0] text-[14px] xl:text-[20px] leading-[1.5]">
+            <p className="font-medium text-[#7d8ba0] text-[12px] min-[400px]:text-[14px] xl:text-[20px] leading-[1.5]">
               다양한 인증서 타입과 발급 전 컨설팅으로 최적의 구성을 제안합니다
             </p>
           </div>
@@ -344,7 +344,7 @@ export default function WhyCertgo() {
 
           {/* Heading */}
           <div ref={trustRef} className={`wc-fade-up${trustInView ? ' visible' : ''} flex flex-col gap-[20px] items-center text-center mb-10 xl:mb-[150px]`}>
-            <p className="font-bold text-white text-[22px] xl:text-[40px] tracking-[-1px] leading-[1.3]">
+            <p className="font-bold text-white text-[17px] min-[400px]:text-[22px] xl:text-[40px] tracking-[-1px] leading-[1.3]">
               같은 인증서라도, Certgo와 함께하면 다릅니다
             </p>
             <p className="font-medium text-white text-[14px] xl:text-[20px] leading-[1.5]">
@@ -435,10 +435,10 @@ export default function WhyCertgo() {
             </div>
           </div>
           <div className={`wc-fade-up d2${ctaInView ? ' visible' : ''} flex flex-col sm:flex-row gap-2 w-full`}>
-            <button className="bg-[#155dfc] hover:bg-[#1251e0] flex-1 h-[64px] xl:h-[80px] rounded-[10px] font-bold text-white text-[16px] xl:text-[20px] leading-[24px] transition-colors">
+            <button className="bg-[#155dfc] hover:bg-[#1251e0] flex-1 min-h-[64px] sm:min-h-[80px] rounded-[10px] font-bold text-white text-[16px] xl:text-[20px] leading-[24px] transition-colors">
               서비스 도입 문의하기
             </button>
-            <button className="border-2 border-[#083691] hover:bg-[#083691] flex-1 h-[64px] xl:h-[80px] rounded-[10px] font-bold text-[#083691] hover:text-white text-[16px] xl:text-[20px] leading-[24px] transition-colors">
+            <button className="border-2 border-[#083691] hover:bg-[#083691] flex-1 min-h-[64px] sm:min-h-[80px] rounded-[10px] font-bold text-[#083691] hover:text-white text-[16px] xl:text-[20px] leading-[24px] transition-colors">
               제품 견적 문의
             </button>
           </div>
