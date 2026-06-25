@@ -119,7 +119,7 @@ export default function WhyCertgo() {
       <NavBar />
 
       {/* ══════════════════ HERO ══════════════════ */}
-      <section className="pt-[40px] sm:pt-[100px] xl:pt-[140px] pb-0 overflow-hidden">
+      <section className="pt-[40px] sm:pt-[60px] xl:pt-[140px] pb-0 overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
 
           {/* Badge - mobile only */}
