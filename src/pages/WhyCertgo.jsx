@@ -1,324 +1,446 @@
-// Figma: Certgo - "why" frame (node 48:1333)
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import NavBar from '../app/components/NavBar';
 import { Footer } from '../app/components/Footer';
-import imgVisual from '../assets/visual.png';
-import imgVisual2 from '../assets/visual2.png';
-import imgUnion from '../assets/Union.png';
-import imgUnion2 from '../assets/Union2.png';
-import logoDigiCert from '../assets/DigiCertLogo.svg';
-import logoSectigo from '../assets/sectigo-logo.svg';
-import logoGlobalSign from '../assets/globalsign.svg';
-import logoGeoTrust from '../assets/GeoTrustLogo 1.svg';
-import logoThawte from '../assets/thawte.svg';
-import imgCard1 from '../assets/images1.png';
-import imgCard2 from '../assets/images2.png';
-import imgCard3 from '../assets/images3.png';
-import imgCard4 from '../assets/images4.png';
+import './WhyCertgo.css';
 
-const REASONS = [
+function useInView(threshold = 0.2) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { setInView(true); observer.disconnect(); }
+    }, { threshold, rootMargin: '0px 0px -100px 0px' });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+  return [ref, inView];
+}
+
+import imgBanner from '../assets/visual.png';
+import imgCert1 from '../assets/images1.png';
+import imgCert2 from '../assets/images2.png';
+import imgCert3 from '../assets/images3.png';
+import imgCert4 from '../assets/images4.png';
+import imgServiceBg from '../assets/visual3.png';
+import imgC1 from '../assets/icon-manager.svg';
+import imgC2 from '../assets/icon-dashboard.svg';
+import imgC3 from '../assets/icon-alert.svg';
+import imgC4 from '../assets/icon-verified.svg';
+import imgC5 from '../assets/icon-settings.svg';
+import imgC6 from '../assets/icon-refresh.svg';
+import imgSafety from '../assets/icon-shield.svg';
+import imgTeamwork from '../assets/icon-teamwork.svg';
+import imgMap from '../assets/icon-map.svg';
+import imgStatistics from '../assets/icon-statistics.svg';
+
+const CERT_TYPES = [
   {
     num: '1',
-    title: '보안 전문성',
-    sub: '지란지교의 노하우가 담긴 독보적 안전성',
-    desc: '지란지교의 오랜 보안 노하우를 바탕으로 업계 최고 수준의 안정성을 제공합니다. 글로벌 표준 보안 규격과 최신 암호화 알고리즘을 적용하여 데이터 유출 위협을 완벽히 차단합니다. 수많은 기업이 선택한 검증된 기술력으로 귀사의 디지털 자산을 가장 안전하게 보호해 드립니다.',
-    img: imgCard1,
+    title: '싱글 인증서',
+    sub: 'Single Domain Certificate',
+    desc: '단일 도메인 환경에 적합한 기본 SSL/TLS 인증서. 빠른 발급과 합리적인 가격으로 소규모 서비스에 최적화',
+    img: imgCert1,
   },
   {
     num: '2',
-    title: '통합 관리',
-    sub: '지란지교의 노하우가 담긴 독보적 안전성',
-    desc: '인증서의 신청부터 발급, 갱신 주기까지 모든 과정을 하나의 스마트 대시보드에서 관리하세요. 복잡하게 흩어져 있던 여러 인증서 현황을 직관적인 UI를 통해 한눈에 파악하고 제어할 수 있습니다. 갱신 시점을 놓치지 않도록 제공되는 자동 알림 시스템으로 서비스 중단 없는 안정적인 운영이 가능합니다.',
-    img: imgCard2,
+    title: '와일드카드 인증서',
+    sub: 'Wildcard Certificate',
+    desc: '*.example.com 형태로 모든 서브도메인을 커버. 개발/스테이징 환경 분리 시 관리 효율 극대화',
+    img: imgCert2,
   },
   {
     num: '3',
-    title: '기술 지원',
-    sub: '지란지교의 노하우가 담긴 독보적 안전성',
-    desc: '단순한 발급을 넘어 서버 환경과 인프라를 정확히 이해하는 보안 전문가가 1:1 밀착 케어를 제공합니다. 설치 과정에서 발생하는 까다로운 기술적 변수에도 막힘없는 해결책을 제시하여 사용자의 부담을 덜어드립니다. 운영 중 발생하는 긴급 상황이나 궁금증에 대해 실시간 전문 엔지니어 상담으로 신속하게 대응합니다.',
-    img: imgCard3,
+    title: '멀티 도메인 인증서',
+    sub: 'Multi-Domain Certificate',
+    desc: '하나의 인증서로 최대 250개 도메인 보호. 여러 브랜드/서비스를 운영하는 엔터프라이즈 환경에 필수',
+    img: imgCert3,
   },
   {
     num: '4',
-    title: '신속 발급',
-    sub: '지란지교의 노하우가 담긴 독보적 안전성',
-    desc: '고도화된 자동화 시스템을 통해 대기 시간 없이 신청 즉시 발급이 가능한 압도적인 속도를 경험하세요. 불필요한 서류 절차와 복잡한 검증 단계를 간소화하여 비즈니스에 필요한 보안을 적시에 구축할 수 있습니다. 가장 빠른 발급 프로세스로 긴급한 프로젝트 오픈이나 인증서 교체 상황에서도 지연 없는 업무 처리를 보장합니다.',
-    img: imgCard4,
+    title: '발급 전 설계 제안',
+    sub: 'Pre-Issuance Design Proposal',
+    desc: '인프라 구조 분석 후 최적의 인증서 타입과 수량을 제안. 과도한 구매 방지 및 TCO 최소화',
+    img: imgCert4,
   },
 ];
 
-/**
- * 요소가 뷰포트에 진입하면 한 번 트리거되는 훅
- * immediate=true 이면 마운트 직후 실행 (히어로용)
- */
-function useReveal(delay = 0, immediate = false) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+const TRUST_CARDS = [
+  {
+    icon: imgSafety,
+    size: 70,
+    title: '신뢰의 certgo',
+    desc: 'DigiCert, Sectigo, GlobalSign 등 글로벌 CA와의 공식 파트너십. 국내 금융권, 공공기관, 대기업 50,000+ 고객이 선택한 대한민국 1위 인증서 플랫폼',
+  },
+  {
+    icon: imgMap,
+    size: 80,
+    title: '현장에서 다져진 기술',
+    desc: 'Apache, Nginx, IIS, Tomcat, AWS ELB/ALB, Azure App Service, GCP Load Balancer. 모든 주요 플랫폼의 설치 가이드와 트러블슈팅 지원',
+  },
+  {
+    icon: imgTeamwork,
+    size: 70,
+    title: '구매 후가 진짜 시작',
+    desc: '발급 후 방치가 아닌, 전담 매니저의 생애주기 관리. 만료 30일 전 자동 알림, 갱신 프로세스 가이드, 긴급 재발급 지원까지',
+  },
+  {
+    icon: imgStatistics,
+    size: 70,
+    title: '인증서 자동갱신',
+    desc: 'ACME 프로토콜 기반 자동 갱신으로 유효기간 단축 리스크 제로화. 47일마다 갱신해야 하는 미래에도 무중단 보호',
+  },
+];
 
-  useEffect(() => {
-    if (immediate) {
-      const t = setTimeout(() => setVisible(true), 60);
-      return () => clearTimeout(t);
-    }
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { rootMargin: '0px 0px -50px 0px', threshold: 0 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+const SERVICE_CARDS = [
+  { icon: imgC1, title: '전문 담당자 지정', desc: 'CSR 생성부터 발급, 설치까지 1:1 전담 매니저가 전 과정을 케어합니다' },
+  { icon: imgC2, title: '만료일 통합 관리', desc: '여러 도메인의 인증서를 한 눈에. My certgo 대시보드에서 실시간 현황 확인' },
+  { icon: imgC3, title: '만료 알림 서비스', desc: '이메일/SMS/Slack 웹훅 연동으로 만료 3일/7일/1일 전 자동 알림' },
+  { icon: imgC4, title: '테스트 인증서 제공', desc: '프로덕션 적용 전 스테이징 환경에서 검증할 수 있는 테스트 인증서 무료 제공' },
+  { icon: imgC5, title: '인프라 구조 최적화', desc: '현재 인프라 분석 후 와일드카드/멀티도메인 전환으로 비용 절감 컨설팅' },
+  { icon: imgC6, title: '자동갱신 구축 지원', desc: "Let's Encrypt, ACME 프로토콜 기반 자동 갱신 파이프라인 구축 가이드" },
+];
 
-  return [ref, {
-    opacity: visible ? 1 : 0,
-    transform: visible ? 'translateY(0)' : 'translateY(26px)',
-    transition: `opacity 0.72s ease-out ${delay}ms, transform 0.72s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}ms`,
-  }];
-}
-
-/** 스크롤 시 개별 애니메이션이 필요한 이유 카드 */
-function ReasonCard({ num, title, sub, desc, img }) {
-  const [ref, style] = useReveal(0);
-  return (
-    <div
-      ref={ref}
-      style={style}
-      className="bg-white border border-[#e5e7eb] rounded-[12px] shadow-sm xl:relative xl:h-[293px]"
-    >
-      {/* 모바일 레이아웃 */}
-      <div className="xl:hidden flex flex-col p-6 gap-4">
-        <div className="flex items-start gap-3">
-          <p
-            className="font-medium text-[#a3afc2] text-[40px] leading-none shrink-0 font-['Roboto_Serif',serif]"
-          >{num}</p>
-          <div className="flex flex-col gap-[4px] pt-2">
-            <p className="font-bold text-[#303336] text-[20px] leading-[1.4]">{title}</p>
-            <p className="font-medium text-[#0657f9] text-[14px] tracking-[-1px] leading-[1.4]">{sub}</p>
-          </div>
-        </div>
-        <p className="text-[#566376] text-[14px] leading-[1.55]">{desc}</p>
-        <div className="w-[100px] h-[100px] rounded-[24px] overflow-hidden self-start">
-          <img alt={title} src={img} className="w-full h-full object-cover" />
-        </div>
-      </div>
-
-      {/* 데스크탑 레이아웃 */}
-      <p
-        className="hidden xl:block absolute font-medium leading-none text-[#a3afc2] text-[76px] whitespace-nowrap left-[59px] top-[51px] font-['Roboto_Serif',serif]"
-      >{num}</p>
-      <div className="hidden xl:flex absolute flex-col gap-[20px] items-start left-[142px] top-[51px]">
-        <div className="flex flex-col gap-[4px] w-[294px]">
-          <p className="font-bold text-[#303336] text-[32px] leading-[1.4] whitespace-nowrap">{title}</p>
-          <p className="font-medium text-[#0657f9] text-[20px] tracking-[-1px] leading-[1.4]">{sub}</p>
-        </div>
-        <p className="text-[#566376] text-[18px] leading-[1.55] max-w-[700px]">{desc}</p>
-      </div>
-      <div
-        className="hidden xl:block absolute rounded-[40px] overflow-hidden left-[967px] top-1/2 -translate-y-1/2 w-[160px] h-[160px]"
-      >
-        <img alt={title} src={img} className="w-full h-full object-cover" />
-      </div>
-    </div>
-  );
-}
-
-/** 파트너 로고 개별 애니메이션 */
-function LogoReveal({ alt, src, h, delay }) {
-  const [ref, style] = useReveal(delay);
-  return <img ref={ref} style={style} alt={alt} src={src} className={`${h} w-auto`} />;
-}
+const CHART_POINTS = [
+  { year: '2026', days: '최대 200일' },
+  { year: '2027', days: '최대 100일' },
+  { year: '2029', days: '최대 47일' },
+];
 
 export default function WhyCertgo() {
-  // 히어로: 마운트 직후
-  const [heroTitleRef, heroTitleStyle] = useReveal(0, true);
-  const [heroStatsRef,  heroStatsStyle]  = useReveal(180, true);
-  const [visualRef,    visualStyle]    = useReveal(320, true);
-
-  // 스크롤 트리거
-  const [reasonHeadRef,  reasonHeadStyle]  = useReveal(0);
-  const [codesignHeadRef, codesignHeadStyle] = useReveal(0);
-  const [leftCardRef,    leftCardStyle]    = useReveal(0);
-  const [rightCardRef,   rightCardStyle]   = useReveal(120);
-  const [partnerHeadRef, partnerHeadStyle] = useReveal(0);
+  const [certRef, certInView]       = useInView();
+  const [trustRef, trustInView]     = useInView();
+  const [serviceRef, serviceInView] = useInView();
+  const [ctaRef, ctaInView]         = useInView();
 
   return (
     <div className="bg-white font-['Pretendard']">
       <NavBar />
 
-      {/* ════════════════ HERO ════════════════ */}
-      <section className="py-[60px] xl:pt-[120px] xl:pb-[140px]">
+      {/* ══════════════════ HERO ══════════════════ */}
+      <section className="pt-[80px] sm:pt-[100px] xl:pt-[140px] pb-0 overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
-          <div className="flex flex-col xl:flex-row xl:justify-between gap-10 xl:gap-0">
 
-            {/* 타이틀 */}
-            <div
-              ref={heroTitleRef}
-              style={heroTitleStyle}
-              className="flex flex-col gap-[24px] xl:gap-[40px] xl:w-[737px]"
-            >
-              <div className="font-bold text-[#303336] text-[28px] sm:text-[40px] xl:text-[54px] tracking-[-1px] leading-[1.3]">
-                <p>왜 보안 전문가들은</p>
-                <p>결국 certgo로 모일까요?</p>
+          {/* Badge - mobile only */}
+          <p className="wc-hero-fade-up d1 xl:hidden font-semibold text-[#083691] text-[15px] mb-[10px]">
+            인증서 유효기간 단축으로 관리 복잡도 급증
+          </p>
+
+          {/* ─── Desktop ─── */}
+          <div className="hidden xl:block">
+
+            {/* Title + bars: top-aligned so bars start at badge level */}
+            <div className="wc-hero-fade-up d1 flex items-start">
+              {/* Badge + Title + desc */}
+              <div className="flex-1 flex flex-col gap-[40px]">
+                <div>
+                  <p className="font-semibold text-[#083691] text-[23px] mb-[10px]">
+                    인증서 유효기간 단축으로 관리 복잡도 급증
+                  </p>
+                  <div className="font-bold text-[#303336] text-[54px] tracking-[-1px] leading-[1.3]">
+                    <p>왜 보안전문가들은</p>
+                    <p>Certgo와 함께할까요?</p>
+                  </div>
+                </div>
+                <div className="text-[#4a5565] text-[20px] leading-[1.5]">
+                  <p>멀티 클라우드, 하이브리드 인프라, 마이크로서비스 아키텍처까지.</p>
+                  <p>인증서 관리는 이제 단순한 구매 문제가 아닙니다.</p>
+                </div>
               </div>
-              <div className="font-medium text-[#7d8ba0] text-[15px] xl:text-[20px] leading-[1.5]">
-                <p>지란지교 보안 그룹의 15년 역사와 함께,</p>
-                <p>대한민국 디지털 보안의 표준을 만들어온 신뢰의 여정</p>
+
+              {/* 2 bars: 140px each, gap-[40px], 216px from text */}
+              <div className="flex gap-[40px] shrink-0 ml-[216px] mr-[150px]">
+                {/* 2027 bar */}
+                <div className="flex flex-col items-center w-[140px]">
+                  <div className="relative bg-[#f3f5f7] h-[200px] w-full">
+                    <div
+                      className="absolute bottom-0 inset-x-0 h-[20px]"
+                      style={{ background: 'linear-gradient(to bottom, #00b277, #0080ff)' }}
+                    />
+                  </div>
+                  <div className="mt-[20px] text-center">
+                    <p className="font-bold text-[#101828] text-[30px] leading-[1.2]">연 1회</p>
+                    <p className="text-[#566376] text-[18px] leading-[1.55]">이전 갱신 빈도</p>
+                  </div>
+                </div>
+                {/* 2029 bar */}
+                <div className="flex flex-col items-center w-[140px]">
+                  <div className="relative bg-[#f3f5f7] h-[200px] w-full">
+                    <div
+                      className="absolute bottom-0 inset-x-0 h-[160px]"
+                      style={{ background: 'linear-gradient(197.82deg, #00b277 10.976%, #0080ff 100%)' }}
+                    />
+                  </div>
+                  <div className="mt-[20px] text-center">
+                    <p className="font-bold text-[#e7000b] text-[30px] leading-[1.2]">연 8회</p>
+                    <p className="text-[#566376] text-[18px] leading-[1.55]">2029년 예상 빈도</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* 통계 */}
-            <div
-              ref={heroStatsRef}
-              style={heroStatsStyle}
-              className="flex xl:flex-col gap-[30px] xl:gap-[40px] xl:items-end xl:text-right shrink-0"
-            >
-              <div className="flex flex-col gap-[8px]">
-                <p className="font-extrabold text-[#083691] text-[44px] xl:text-[64px] leading-none">15+</p>
-                <p className="font-medium text-[#4a5565] text-[13px] xl:text-[20px] uppercase">Years of Excellence</p>
+            {/* Timeline: 874px wide, dots at Figma proportions */}
+            <div className="wc-hero-fade-up d2 w-[874px] mt-[80px] ml-[80px]">
+              <div className="relative h-[20px]">
+                <div className="absolute top-1/2 h-px bg-[#155dfc] -translate-y-1/2 right-0" style={{ left: '15%' }} />
+                {['15%', '58%', '100%'].map((left, i) => (
+                  <div
+                    key={i}
+                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[20px] h-[20px] rounded-full bg-[#155dfc]"
+                    style={{ left }}
+                  />
+                ))}
               </div>
-              <div className="flex flex-col gap-[8px]">
-                <p className="font-extrabold text-[#083691] text-[44px] xl:text-[64px] leading-none">50,000+</p>
-                <p className="font-medium text-[#4a5565] text-[13px] xl:text-[20px] uppercase">Trusted Clients</p>
+
+              {/* Year + days labels absolutely positioned to match dots */}
+              <div className="relative mt-3 h-[80px]">
+                {CHART_POINTS.map(({ year, days }, i) => (
+                  <div
+                    key={year}
+                    className="absolute -translate-x-1/2 flex flex-col gap-[12px] items-center"
+                    style={{ left: ['15%', '58%', '100%'][i] }}
+                  >
+                    <p className="font-medium text-[#909eb2] text-[28px] uppercase leading-none">{year}</p>
+                    <p className="font-extrabold text-[#083691] text-[36px] leading-none whitespace-nowrap">{days}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
+
+          {/* ─── Mobile ─── */}
+          <div className="xl:hidden flex flex-col gap-6">
+            <div className="font-bold text-[#303336] text-[28px] sm:text-[38px] tracking-[-1px] leading-[1.3]">
+              <p>왜 보안전문가들은</p>
+              <p>Certgo와 함께할까요?</p>
+            </div>
+            <div className="text-[#4a5565] text-[14px] sm:text-[16px] leading-[1.5]">
+              <p>멀티 클라우드, 하이브리드 인프라, 마이크로서비스 아키텍처까지.</p>
+              <p>인증서 관리는 이제 단순한 구매 문제가 아닙니다.</p>
+            </div>
+
+            {/* Mobile: 2 bars only, centered */}
+            <div className="flex justify-center gap-4">
+              {/* 2027 bar */}
+              <div className="flex flex-col items-center w-[140px]">
+                <div className="relative bg-[#f3f5f7] h-[120px] w-full">
+                  <div className="absolute bottom-0 inset-x-0 h-[12px]"
+                    style={{ background: 'linear-gradient(to bottom, #00b277, #0080ff)' }} />
+                </div>
+                <div className="mt-2 text-center">
+                  <p className="font-bold text-[#101828] text-[18px] leading-[1.2]">연 1회</p>
+                  <p className="text-[#566376] text-[12px] leading-[1.55]">이전 갱신 빈도</p>
+                </div>
+              </div>
+              {/* 2029 bar */}
+              <div className="flex flex-col items-center w-[140px]">
+                <div className="relative bg-[#f3f5f7] h-[120px] w-full">
+                  <div className="absolute bottom-0 inset-x-0 h-[96px]"
+                    style={{ background: 'linear-gradient(197.82deg, #00b277 10.976%, #0080ff 100%)' }} />
+                </div>
+                <div className="mt-2 text-center">
+                  <p className="font-bold text-[#e7000b] text-[18px] leading-[1.2]">연 8회</p>
+                  <p className="text-[#566376] text-[12px] leading-[1.55]">2029년 예상 빈도</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile timeline */}
+            <div className="relative h-[14px]">
+              <div className="absolute top-1/2 left-0 right-0 h-px bg-[#c2c9d6] -translate-y-1/2" />
+              {['0%', '50%', '100%'].map((left, i) => (
+                <div key={i}
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[14px] h-[14px] rounded-full bg-[#155dfc]"
+                  style={{ left }} />
+              ))}
+            </div>
+
+            {/* Mobile year labels */}
+            <div className="flex justify-between">
+              {CHART_POINTS.map(({ year, days }) => (
+                <div key={year} className="flex flex-col gap-[4px] items-center text-center">
+                  <p className="font-medium text-[#909eb2] text-[12px] uppercase leading-none">{year}</p>
+                  <p className="font-extrabold text-[#083691] text-[14px] sm:text-[16px] leading-none whitespace-nowrap">{days}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* 비주얼 배너 */}
-      <div ref={visualRef} style={visualStyle} className="max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
+      {/* Banner image */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0 mt-6 xl:mt-[90px]">
         <img
           alt=""
-          src={imgVisual}
-          className="w-full h-[80px] sm:h-[120px] xl:h-[160px] object-cover object-bottom pointer-events-none"
+          src={imgBanner}
+          className="w-full h-[60px] sm:h-[100px] xl:h-[160px] object-cover object-bottom pointer-events-none"
         />
       </div>
 
-      {/* ════════════════ 4가지 이유 ════════════════ */}
-      <section className="bg-[#f4f6f9] py-[60px] xl:pt-[160px] xl:pb-[160px]">
+      {/* ══════════════════ CERT TYPES ══════════════════ */}
+      <section className="bg-[#f3f5f7] py-[60px] xl:pt-[140px] xl:pb-[140px]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
-          <p
-            ref={reasonHeadRef}
-            style={reasonHeadStyle}
-            className="font-bold text-[#303336] text-[26px] xl:text-[40px] tracking-[-1px] leading-[40px] text-center mb-8 xl:mb-[100px]"
-          >
-            전문가가 선택하는 4가지 이유
-          </p>
 
-          <div className="flex flex-col gap-4 xl:gap-[12px]">
-            {REASONS.map((r) => <ReasonCard key={r.num} {...r} />)}
+          {/* Heading */}
+          <div ref={certRef} className={`wc-fade-up${certInView ? ' visible' : ''} flex flex-col gap-[20px] items-center text-center mb-6 xl:mb-[60px]`}>
+            <p className="font-bold text-[#303336] text-[22px] xl:text-[40px] tracking-[-1px] leading-[1.3]">
+              복잡한 환경일수록 certgo가 더 잘 맞습니다
+            </p>
+            <p className="font-medium text-[#7d8ba0] text-[14px] xl:text-[20px] leading-[1.5]">
+              다양한 인증서 타입과 발급 전 컨설팅으로 최적의 구성을 제안합니다
+            </p>
+          </div>
+
+          {/* Cards */}
+          <div className="flex flex-col gap-3">
+            {CERT_TYPES.map((cert, idx) => (
+              <div key={cert.num} className={`wc-fade-up d${idx + 1}${certInView ? ' visible' : ''} bg-white border border-[#e5e7eb] rounded-[12px] shadow-sm`}>
+
+                {/* Mobile */}
+                <div className="xl:hidden flex flex-col p-5 gap-4">
+                  <div className="flex items-start gap-3">
+                    <p className="font-['Roboto_Serif',serif] font-medium text-[#a3afc2] text-[48px] leading-none shrink-0">
+                      {cert.num}
+                    </p>
+                    <div className="flex flex-col gap-1 pt-1">
+                      <p className="font-bold text-[#303336] text-[20px] leading-[1.4]">{cert.title}</p>
+                      <p className="font-medium text-[#0657f9] text-[13px] leading-[1.4]">{cert.sub}</p>
+                    </div>
+                  </div>
+                  <p className="text-[#566376] text-[14px] leading-[1.55]">{cert.desc}</p>
+                  <div className="w-[100px] h-[100px] rounded-[16px] overflow-hidden">
+                    <img alt={cert.title} src={cert.img} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+
+                {/* Desktop */}
+                <div className="hidden xl:flex items-start h-[240px] pl-[99px] pr-[50px] gap-[40px] pt-[40px]">
+                  <p className="font-['Roboto_Serif',serif] font-medium text-[#a3afc2] text-[76px] leading-none shrink-0 w-[50px]">
+                    {cert.num}
+                  </p>
+                  <div className="flex flex-col gap-[12px] flex-1">
+                    <div className="flex flex-col leading-[1.4] w-[294px]">
+                      <p className="font-bold text-[#303336] text-[32px]">{cert.title}</p>
+                      <p className="font-medium text-[#0657f9] text-[20px]">{cert.sub}</p>
+                    </div>
+                    <p className="text-[#566376] text-[18px] leading-[1.55] max-w-[504px]">{cert.desc}</p>
+                  </div>
+                  <div className="w-[220px] h-[160px] rounded-[20px] overflow-hidden shrink-0">
+                    <img alt={cert.title} src={cert.img} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ════════════════ CODESIGN 비교 ════════════════ */}
-      <section className="relative py-[60px] xl:pt-[140px] xl:pb-[140px] bg-[#3d64b2] overflow-hidden">
-        <img
-          alt=""
-          src={imgVisual2}
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none mix-blend-multiply"
-        />
-        <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
+      {/* ══════════════════ TRUST ══════════════════ */}
+      <section className="bg-[#224791] py-[60px] xl:pt-[140px] xl:pb-[140px]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
 
-          {/* 섹션 타이틀 */}
-          <div
-            ref={codesignHeadRef}
-            style={codesignHeadStyle}
-            className="text-center mb-12 xl:mb-[95px]"
-          >
-            <p className="font-bold text-white text-[22px] sm:text-[30px] xl:text-[40px] tracking-[-1px] leading-[1.3] mb-3">
-              당신의 소프트웨어는 어떤 얼굴로 고객을 만납니까?
+          {/* Heading */}
+          <div ref={trustRef} className={`wc-fade-up${trustInView ? ' visible' : ''} flex flex-col gap-[20px] items-center text-center mb-10 xl:mb-[150px]`}>
+            <p className="font-bold text-white text-[22px] xl:text-[40px] tracking-[-1px] leading-[1.3]">
+              같은 인증서라도, Certgo와 함께하면 다릅니다
             </p>
             <p className="font-medium text-white text-[14px] xl:text-[20px] leading-[1.5]">
-              코드사인 인증서로 달라지는 사용자 경험
-            </p>
-          </div>
-
-          {/* 카드 2열 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-[52px] sm:gap-6 xl:gap-[40px]">
-
-            {/* 왼쪽 카드 */}
-            <div ref={leftCardRef} style={leftCardStyle} className="relative pt-[44px]">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-[170px] h-[88px]">
-                <img alt="" className="absolute inset-0 w-full h-full" src={imgUnion} />
-                <p className="absolute font-bold text-white text-[20px] leading-[1.4] tracking-[-1px] text-center whitespace-nowrap w-full top-[19px]">
-                  사용자 이탈 발생
-                </p>
-              </div>
-              <div className="bg-white rounded-[20px] overflow-hidden">
-                <div className="bg-[#ffd400] rounded-tl-[20px] rounded-tr-[20px] h-[69px] flex items-center px-8">
-                  <p className="font-semibold text-[#303336] text-[16px] xl:text-[20px] leading-[1.4]">Windows에서 PC 보호</p>
-                </div>
-                <div className="p-6 xl:py-[40px] flex justify-center">
-                  <div className="flex flex-col gap-[16px] xl:w-[371px]">
-                    <p className="font-bold text-[#303336] text-[20px] xl:text-[24px] leading-none">알 수 없는 게시자</p>
-                    <div className="text-[#566376] text-[13px] xl:text-[16px] leading-[1.55]">
-                      <p>이 앱의 게시자를 확인할 수 없습니다.</p>
-                      <p>실행하면 PC가 손상되거나 개인 정보가 노출될 수 있습니다.</p>
-                    </div>
-                    <div className="flex gap-[8px] xl:justify-center">
-                      <button className="bg-[#e5e7eb] flex items-center justify-center py-[10px] rounded-[4px] font-medium text-[#364153] text-[14px] xl:text-[18px] flex-1 xl:flex-none xl:w-[160px]">실행 안 함</button>
-                      <button className="bg-[#e5e7eb] flex items-center justify-center py-[10px] rounded-[4px] font-medium text-[#364153] text-[14px] xl:text-[18px] flex-1 xl:flex-none xl:w-[160px]">추가정보</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 오른쪽 카드 */}
-            <div ref={rightCardRef} style={rightCardStyle} className="relative pt-[44px]">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-[170px] h-[88px]">
-                <img alt="" className="absolute inset-0 w-full h-full" src={imgUnion2} />
-                <p className="absolute font-bold text-white text-[20px] leading-[1.4] tracking-[-1px] text-center whitespace-nowrap w-full top-[19px]">
-                  신뢰 기반 실행
-                </p>
-              </div>
-              <div className="bg-white rounded-[20px] overflow-hidden">
-                <div className="bg-[#e8e8e8] rounded-tl-[20px] rounded-tr-[20px] h-[69px] flex items-center px-8">
-                  <p className="font-semibold text-[#303336] text-[16px] xl:text-[20px] leading-[1.4]">사용자 계정 컨트롤</p>
-                </div>
-                <div className="p-6 xl:py-[40px] flex justify-center">
-                  <div className="flex flex-col gap-[16px] xl:w-[371px]">
-                    <div className="flex items-baseline gap-3 flex-wrap">
-                      <p className="font-bold text-[#303336] text-[20px] xl:text-[24px] leading-none">확인된 게시자</p>
-                      <p className="font-semibold text-[#0657f9] text-[20px] xl:text-[24px] leading-none">SECURE Inc.</p>
-                    </div>
-                    <div className="text-[#566376] text-[13px] xl:text-[16px] leading-[1.55]">
-                      <p>이 앱의 게시자를 확인할 수 없습니다.</p>
-                      <p>실행하면 PC가 손상되거나 개인 정보가 노출될 수 있습니다.</p>
-                    </div>
-                    <div className="flex gap-[8px] xl:justify-center">
-                      <button className="bg-[#155dfc] flex items-center justify-center py-[10px] rounded-[4px] font-medium text-white text-[14px] xl:text-[18px] flex-1 xl:flex-none xl:w-[160px]">예</button>
-                      <button className="bg-[#e5e7eb] flex items-center justify-center py-[10px] rounded-[4px] font-medium text-[#364153] text-[14px] xl:text-[18px] flex-1 xl:flex-none xl:w-[160px]">아니요</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════ 파트너 로고 ════════════════ */}
-      <section className="py-[60px] xl:py-[100px]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
-          <div
-            ref={partnerHeadRef}
-            style={partnerHeadStyle}
-            className="flex flex-col gap-[20px] items-center text-center mb-10 xl:mb-[100px]"
-          >
-            <p className="font-bold text-[#303336] text-[26px] xl:text-[40px] tracking-[-1px] leading-[40px]">글로벌 기술력, 로컬의 신뢰</p>
-            <p className="font-medium text-[#7d8ba0] text-[15px] xl:text-[20px] leading-[1.5]">
               세계 최고 수준의 인증기관 및 국내 주요 기업과 함께합니다
             </p>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-8 xl:gap-[60px]">
-            <LogoReveal alt="Sectigo"    src={logoSectigo}    h="h-[20px] xl:h-[32px]" delay={0}   />
-            <LogoReveal alt="GeoTrust"   src={logoGeoTrust}   h="h-[32px] xl:h-[56px]" delay={80}  />
-            <LogoReveal alt="GlobalSign" src={logoGlobalSign} h="h-[26px] xl:h-[47px]" delay={160} />
-            <LogoReveal alt="Thawte"     src={logoThawte}     h="h-[32px] xl:h-[62px]" delay={240} />
-            <LogoReveal alt="DigiCert"   src={logoDigiCert}   h="h-[26px] xl:h-[45px]" delay={320} />
+
+          {/* 2×2 grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {TRUST_CARDS.map((card, idx) => (
+              <div
+                key={card.title}
+                className={`wc-fade-up d${idx + 1}${trustInView ? ' visible' : ''} bg-white rounded-[12px] shadow-sm p-[40px] flex gap-[28px] items-start min-h-[208px]`}
+              >
+                <img
+                  alt=""
+                  src={card.icon}
+                  className="shrink-0"
+                  style={{ width: card.size, height: card.size }}
+                />
+                <div className="flex flex-col gap-[8px]">
+                  <p className="font-bold text-[#303336] text-[20px] xl:text-[28px] leading-[1.4]">{card.title}</p>
+                  <p className="text-[#566376] text-[14px] xl:text-[18px] leading-[1.5]">{card.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ══════════════════ SERVICE ══════════════════ */}
+      <section className="relative py-[60px] xl:pt-[140px] xl:pb-[140px] overflow-hidden">
+        <div className="absolute inset-0">
+          <img alt="" src={imgServiceBg} className="w-full h-full object-cover" />
+        </div>
+        <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-8 xl:px-0">
+
+          {/* Heading */}
+          <div ref={serviceRef} className={`wc-fade-up${serviceInView ? ' visible' : ''} flex flex-col gap-[20px] items-center text-center mb-6 xl:mb-[60px]`}>
+            <p className="font-bold text-white text-[22px] xl:text-[40px] tracking-[-1px] leading-[1.3]">
+              인증서 하나를 사도, certgo답게
+            </p>
+            <p className="font-medium text-white text-[14px] xl:text-[20px] leading-[1.5]">
+              단순히 인증서를 파는 게 아니라, 당신의 인프라를 이해합니다
+            </p>
+          </div>
+
+          {/* 3×2 grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+            {SERVICE_CARDS.map((card, idx) => (
+              <div
+                key={card.title}
+                className={`wc-fade-up d${idx + 1}${serviceInView ? ' visible' : ''} rounded-[14px] p-[24px] flex flex-col min-h-[210px]`}
+                style={{
+                  background: 'rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(4px)',
+                  WebkitBackdropFilter: 'blur(4px)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                }}
+              >
+                <div className="bg-[#155dfc] rounded-full w-[48px] h-[48px] flex items-center justify-center shrink-0">
+                  <img alt="" src={card.icon} className="w-[48px] h-[48px]" />
+                </div>
+                <p className="font-bold text-white text-[20px] xl:text-[26px] leading-[28px] mt-[16px]">
+                  {card.title}
+                </p>
+                <p className="text-white text-[14px] xl:text-[18px] leading-[1.4] mt-[12px]">
+                  {card.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ══════════════════ CTA ══════════════════ */}
+      <section className="py-[80px] xl:py-[120px]">
+        <div ref={ctaRef} className="max-w-[648px] mx-auto px-4 flex flex-col gap-[40px] xl:gap-[60px] items-center">
+          <div className={`wc-fade-up${ctaInView ? ' visible' : ''} text-center flex flex-col gap-[24px] xl:gap-[32px]`}>
+            <p className="font-bold text-[#303336] text-[30px] xl:text-[52px] tracking-[-1px] leading-[1.3]">
+              인증서, 이제 certgo로 GO!
+            </p>
+            <div className="font-medium text-[#7d8ba0] text-[14px] xl:text-[20px] leading-[1.5]">
+              <p>복잡해진 인증서 관리, 혼자 고민하지 마세요.</p>
+              <p>지란지교 보안 그룹의 15년 노하우가 당신의 인프라를 지킵니다.</p>
+            </div>
+          </div>
+          <div className={`wc-fade-up d2${ctaInView ? ' visible' : ''} flex flex-col sm:flex-row gap-2 w-full`}>
+            <button className="bg-[#155dfc] hover:bg-[#1251e0] flex-1 h-[64px] xl:h-[80px] rounded-[10px] font-bold text-white text-[16px] xl:text-[20px] leading-[24px] transition-colors">
+              서비스 도입 문의하기
+            </button>
+            <button className="border-2 border-[#083691] hover:bg-[#083691] flex-1 h-[64px] xl:h-[80px] rounded-[10px] font-bold text-[#083691] hover:text-white text-[16px] xl:text-[20px] leading-[24px] transition-colors">
+              제품 견적 문의
+            </button>
           </div>
         </div>
       </section>
